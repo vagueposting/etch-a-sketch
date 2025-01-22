@@ -49,7 +49,6 @@ div#canvas {
 
 div.pixel {
     border: 2px solid rgba(59, 18, 102, 0.25);
-    box-sizing: border-box;
     background-color: white;
     margin: -1px; 
 }
