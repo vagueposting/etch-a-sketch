@@ -1,14 +1,18 @@
 // define canvas
 const pixelCanvas = document.querySelector("#canvas");
 
+function subdivideCanvas(int) {
+    return (1/int) * 100;
+};
+
 // Generate the canvas
 
 function generateGrid(numberofPixels = 16) {
     for (let i = 0; i <= (numberofPixels - 1); i++) {
         let rowPiece = document.createElement("div");
-        let percentOfSegment = (1/numberofPixels * 1)*100;
+        let percentOfCanvas = subdivideCanvas(numberofPixels);
         rowPiece.setAttribute("style",
-            `height: ${percentOfSegment}%`
+            `height: ${percentOfCanvas}%`
         );
         rowPiece.classList.add("rowPiece")
         rowPiece.setAttribute("id", `row${i}`)
@@ -17,12 +21,12 @@ function generateGrid(numberofPixels = 16) {
     
     for (let i = 0; i <= (numberofPixels - 1); i++) {
         let rowHeader = document.querySelector(`#row${i}`);
-        let percentOfSegment = (1/numberofPixels * 1)*100;
+        let percentOfRow = subdivideCanvas(numberofPixels);
         for (let i = 0; i <= (numberofPixels - 1); i++) {
             let individualPixels = document.createElement("div");
             individualPixels.classList.add("pixel");
             individualPixels.setAttribute("style",
-                `width: ${percentOfSegment}%`
+                `width: ${percentOfRow}%`
             );
             rowHeader.appendChild(individualPixels);
         }
