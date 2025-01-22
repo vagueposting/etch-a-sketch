@@ -29,4 +29,4 @@ function generateGrid(numberofPixels = 16) {
     } 
 };
 
-generateGrid(24);
+generateGrid(64);
