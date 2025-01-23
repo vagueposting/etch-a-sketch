@@ -1,18 +1,23 @@
 // define canvas
-const pixelCanvas = document.querySelector("#canvas");
-let dimensionSlider = document.querySelector("#dimensionSlider"),
-canvasDimensions = dimensionSlider.value,
-canvasDimensionDisplay = document.querySelector("#canvasDimensionDisplay");
-canvasDimensionDisplay.textContent = canvasDimensions;
+const pixelCanvas = document.querySelector("#canvas"),
+dimensionSlider = document.querySelector("#dimensionSlider"),
+rainbowMode = document.querySelector("#rainbow"),
+trickleMode = document.querySelector("#trickle");
+let canvasDimensions = dimensionSlider.value,
+canvasDimensionDisplay = document.querySelector("#canvasDimensionDisplay"),
+gridStatus = false;
+canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`;
 console.log(canvasDimensions);
 
 function subdivideCanvas(int) {
     return (1/int) * 100;
 };
 
+// Welcome to the button zone, Davis.
+
 dimensionSlider.addEventListener("input", (event) => {
     canvasDimensions = event.target.value;
-    canvasDimensionDisplay.textContent = canvasDimensions; 
+    canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`; 
     generateGrid()
 })
 
