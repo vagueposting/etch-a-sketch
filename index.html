@@ -5,11 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
-    <title>Dr. Magnificent's Art Machine</title>
+    <title>Dr. Magnificent&rsquo;s Art Machine</title>
 </head>
 <body>
     <h1>Dr. Magnificent's Art Machine!</h1>
-    <div id="canvas">
+    <div id="app">
+        <div id="controls">
+            <button id="rainbow">RAINBOW MODE</button>
+            <button id="trickle">trickle mode</button>
+            <button id="grid">toggle grid</button>
+            <div class="slideContainer">
+                <div id="canvasDimensionDisplay"></div>
+                <input type="range" 
+                min="2"
+                max="96"
+                value="16"
+                step="2"
+                id="dimensionSlider">
+            </div>
+        </div>
+        <div id="canvas">
+        </div>
+    </div>
+    <div class="footer">
+        <p><i>Dr. Magnificent&rsquo;s Art Machine</i> was made by vagueposting.</p>
     </div>
 </body>
 </html>
