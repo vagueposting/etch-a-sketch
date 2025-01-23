@@ -2,12 +2,19 @@
 const pixelCanvas = document.querySelector("#canvas"),
 dimensionSlider = document.querySelector("#dimensionSlider"),
 rainbowMode = document.querySelector("#rainbow"),
-trickleMode = document.querySelector("#trickle");
+trickleMode = document.querySelector("#trickle"),
+clearCanvas = document.querySelector("#clear");
 let canvasDimensions = dimensionSlider.value,
 canvasDimensionDisplay = document.querySelector("#canvasDimensionDisplay"),
 gridStatus = false;
 canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`;
 console.log(canvasDimensions);
+
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
+
+// Math for sizing
 
 function subdivideCanvas(int) {
     return (1/int) * 100;
@@ -15,15 +22,20 @@ function subdivideCanvas(int) {
 
 // Welcome to the button zone, Davis.
 
-dimensionSlider.addEventListener("input", (event) => {
-    canvasDimensions = event.target.value;
+dimensionSlider.addEventListener("input", (e) => {
+    canvasDimensions = e.target.value;
     canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`; 
     generateGrid()
+})
+
+clearCanvas.addEventListener("click", (e) => {
+    generateGrid();
 })
 
 // Generate the canvas
 
 function generateGrid(numberOfPixels = canvasDimensions) {
+    console.log("test");
     pixelCanvas.innerHTML = null;
     for (let i = 0; i <= (numberOfPixels - 1); i++) {
         let rowPiece = document.createElement("div");
@@ -45,9 +57,16 @@ function generateGrid(numberOfPixels = canvasDimensions) {
             individualPixels.setAttribute("style",
                 `width: ${percentOfRow}%`
             );
+            individualPixels.addEventListener("mouseover", draw);
             rowHeader.appendChild(individualPixels);
         }
     } 
 };
+
+// Draw function
+
+function draw(e) {
+    e.target.style.backgroundColor = "#3b1266";
+}
 
 generateGrid();

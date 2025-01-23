@@ -71,6 +71,9 @@ h1 {
 
 #trickle { transform: rotate(1.5deg); }
 
+#clear { transform: rotate(-4deg);
+opacity: 1;}
+
 #canvasDimensionDisplay {
     font-size: 0.75rem;
     text-align: center;
@@ -125,6 +128,7 @@ div#canvas {
     margin: 1rem 0;
     min-width: 12.5em; max-width: 12.5em;
     min-height: 12.5em; max-height: 12.5em;
+
 }
 
 .rowPiece {
