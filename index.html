@@ -10,9 +10,11 @@
 <body>
     <h1>Dr. Magnificent's Art Machine!</h1>
     <div id="app">
-        <div id="controls">
-            <button id="rainbow">RAINBOW MODE</button>
-            <button id="trickle">trickle mode</button>
+        <div class="controls">
+            <h2>styles</h2>
+            <button id="normal">normal style</button>
+            <button id="rainbow">RAINBOW STYLE</button>
+            <button id="trickle">trickle style</button>
             <button id="clear">start over</button>
             <div class="slideContainer">
                 <div id="canvasDimensionDisplay"></div>
@@ -25,6 +27,18 @@
             </div>
         </div>
         <div id="canvas">
+        </div>
+        <div class="controls">
+            <div class="tools">
+                <button id="pen">
+                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" color="#3B1266"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg>
+                </button>
+                <button id="eraser">
+                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" color="#3B1266"><defs><style>.cls-637b83faf95e86b59c57a0de-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b83faf95e86b59c57a0de-1" d="M13.59,19l-2.82,2.83a2.33,2.33,0,0,1-1.63.67h0a2.31,2.31,0,0,1-1.63-.67L2.17,16.49a2.31,2.31,0,0,1-.67-1.63h0a2.33,2.33,0,0,1,.67-1.63L5,10.41Z"></path><rect class="cls-637b83faf95e86b59c57a0de-1" x="7.45" y="4.17" width="12.59" height="12.15" transform="translate(-3.22 12.73) rotate(-45)"></rect></svg>
+                </button>
+            </div>
+            <div id="colorSelection">
+            </div>
         </div>
     </div>
     <div class="footer">

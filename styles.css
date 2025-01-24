@@ -40,13 +40,21 @@ h1 {
     align-items: center;
 }
 
-#controls {
+.controls {
     display: flex;
     flex-direction: column;
     gap: 0.75em;
 }
 
-#controls button {
+.controls h2 {
+    font-size: 1rem;
+    font-family: "Leckerli One", serif;
+    font-weight: 300;
+    margin: 0;
+    text-align: center;
+}
+
+.controls button {
     width: 100%;
     font-size: 0.60rem;
     padding: 4px 16px;
@@ -56,11 +64,19 @@ h1 {
     cursor: pointer;
     box-shadow: 0.15rem 0.15rem 0px #3B1266;
     color: #3B1266;
-    opacity: 0.7;
+    opacity: 0.6;
 }
 
-#controls button:active {
+.controls button:active {
     opacity: 1;
+}
+
+.tools button {
+    padding: 4px 8px;
+}
+
+#normal {
+    transform: rotate(1.5deg);
 }
 
 #rainbow {
@@ -101,7 +117,7 @@ opacity: 1;}
 opacity: 1; /* Fully shown on mouse-over */
 }
 
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+/* The slider handle  */
 #dimensionSlider::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */
     appearance: none;
@@ -118,6 +134,13 @@ opacity: 1; /* Fully shown on mouse-over */
     border-radius: 1em;
     background: #E382B9;
     cursor: pointer; 
+}
+
+.tools {
+    display: flex;
+    gap: .5em;
+    justify-content: center;
+    align-items: center;
 }
 
 div#canvas {

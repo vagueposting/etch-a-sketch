@@ -1,18 +1,21 @@
-// define canvas
+// define elements
 const pixelCanvas = document.querySelector("#canvas"),
 dimensionSlider = document.querySelector("#dimensionSlider"),
+normalMode = document.querySelector("#normal"),
 rainbowMode = document.querySelector("#rainbow"),
 trickleMode = document.querySelector("#trickle"),
+pen = document.querySelector("#pen"),
+eraser = document.querySelector("#eraser"),
+colorSelection = document.querySelector("#colorSelection"),
 clearCanvas = document.querySelector("#clear");
+
+// define canvas
 let canvasDimensions = dimensionSlider.value,
 canvasDimensionDisplay = document.querySelector("#canvasDimensionDisplay"),
 gridStatus = false;
+
 canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`;
 console.log(canvasDimensions);
-
-let mouseDown = false;
-document.body.onmousedown = () => (mouseDown = true);
-document.body.onmouseup = () => (mouseDown = false);
 
 // Math for sizing
 
@@ -20,7 +23,46 @@ function subdivideCanvas(int) {
     return (1/int) * 100;
 };
 
+let penMode = "NORMAL",
+rainbowIndex = 0;
+
+// color init
+let rainbowColors = ["rgba(230,69,110,1)",
+    "rgb(242, 174, 135)",
+    "rgb(250,244,152)", 
+    "rgb(219, 236, 176)",
+    "rgb(195, 230, 195)",
+    "rgb(159, 221, 224)",
+    "rgb(119,211,255)",
+    "rgb(144, 202, 246)",
+    "rgb(196,182,227)",
+    "rgb(206, 148, 208)",
+    "rgb(221, 107, 168)"
+];
+
 // Welcome to the button zone, Davis.
+
+/* function adjustButtonOpacity() {
+    normalMode.style.opacity = 0.6;
+    rainbowMode.style.opacity = 0.6;
+
+}; */
+
+pen.addEventListener("click", (e) => {
+    penState = "DRAW";
+})
+
+eraser.addEventListener("click", (e) => {
+    penState = "ERASE";
+})
+
+rainbowMode.addEventListener("click", (e) => {
+    penMode = "RAINBOW";
+})
+
+normalMode.addEventListener("click", (e) => {
+    penMode = "NORMAL";
+})
 
 dimensionSlider.addEventListener("input", (e) => {
     canvasDimensions = e.target.value;
@@ -66,7 +108,16 @@ function generateGrid(numberOfPixels = canvasDimensions) {
 // Draw function
 
 function draw(e) {
-    e.target.style.backgroundColor = "#3b1266";
+    if (penState === "DRAW") {
+        if (penMode === "RAINBOW") {
+            e.target.style.backgroundColor = rainbowColors[rainbowIndex];
+            rainbowIndex = (rainbowIndex + 1) % rainbowColors.length;
+            }
+        else if (penMode === "NORMAL") {
+            e.target.style.backgroundColor = "#3b1266";
+        }
+    } else if (penState === "ERASE") {
+        e.target.style.backgroundColor = "white";
+    }
 }
-
 generateGrid();
