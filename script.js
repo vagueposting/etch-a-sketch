@@ -23,11 +23,9 @@ function subdivideCanvas(int) {
     return (1/int) * 100;
 };
 
-let penMode = "NORMAL",
-rainbowIndex = 0;
-
 // color init
-let rainbowColors = ["rgba(230,69,110,1)",
+let colorPalette = [
+    "rgb(230,69,110)",
     "rgb(242, 174, 135)",
     "rgb(250,244,152)", 
     "rgb(219, 236, 176)",
@@ -37,8 +35,17 @@ let rainbowColors = ["rgba(230,69,110,1)",
     "rgb(144, 202, 246)",
     "rgb(196,182,227)",
     "rgb(206, 148, 208)",
-    "rgb(221, 107, 168)"
+    "rgb(221, 107, 168)",
+    "rgb(59, 18, 102)"
 ];
+
+// pen init
+
+let penMode = "NORMAL",
+penState = "DRAW",
+penColor = colorPalette[11],
+rainbowIndex = 0;
+
 
 // Welcome to the button zone, Davis.
 
@@ -50,19 +57,16 @@ let rainbowColors = ["rgba(230,69,110,1)",
 
 pen.addEventListener("click", (e) => {
     penState = "DRAW";
-})
-
+});
 eraser.addEventListener("click", (e) => {
     penState = "ERASE";
-})
-
+});
 rainbowMode.addEventListener("click", (e) => {
     penMode = "RAINBOW";
-})
-
+});
 normalMode.addEventListener("click", (e) => {
     penMode = "NORMAL";
-})
+});
 
 dimensionSlider.addEventListener("input", (e) => {
     canvasDimensions = e.target.value;
@@ -110,14 +114,34 @@ function generateGrid(numberOfPixels = canvasDimensions) {
 function draw(e) {
     if (penState === "DRAW") {
         if (penMode === "RAINBOW") {
+            const rainbowColors = colorPalette.slice(0,-1);
             e.target.style.backgroundColor = rainbowColors[rainbowIndex];
             rainbowIndex = (rainbowIndex + 1) % rainbowColors.length;
             }
         else if (penMode === "NORMAL") {
-            e.target.style.backgroundColor = "#3b1266";
+            e.target.style.backgroundColor = penColor;
         }
     } else if (penState === "ERASE") {
         e.target.style.backgroundColor = "white";
     }
 }
+
+// Color palette
+
+function generatePalette(numberOfColors = colorPalette.length) {
+    console.log("generatePalette function found.")
+    
+    for (let i = 0; i < colorPalette.length; i++) {
+        let colorSwatch = document.createElement("div");
+        colorSwatch.classList.add("colorSwatch");
+        colorSwatch.style.backgroundColor = colorPalette[i];
+        colorSwatch.addEventListener("click", (e) => {
+            penColor = colorPalette[i]
+            console.log(`pen color is: ${penColor}`)
+        })
+        colorSelection.appendChild(colorSwatch);
+    }
+}
+
 generateGrid();
+generatePalette();
