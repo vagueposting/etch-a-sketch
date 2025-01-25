@@ -49,24 +49,52 @@ rainbowIndex = 0;
 
 // Welcome to the button zone, Davis.
 
-/* function adjustButtonOpacity() {
+function adjustButtonOpacity() {
     normalMode.style.opacity = 0.6;
     rainbowMode.style.opacity = 0.6;
+    trickleMode.style.opacity = 0.6;
+    pen.style.opacity = 0.6;
+    eraser.style.opacity = 0.6;
 
-}; */
+    switch (penMode) {
+        case "NORMAL":
+            normalMode.style.opacity = 1.0;
+            break;
+        case "RAINBOW":
+            rainbowMode.style.opacity = 1.0;
+            break;
+        case "TRICKLE":
+            trickleMode.style.opacity = 1.0;
+            break;
+    }
+
+    switch (penState) {
+        case "DRAW":
+            pen.style.opacity = 1.0;
+            break;
+        case "ERASE":
+            eraser.style.opacity = 1.0;
+            break;
+    }
+};
 
 pen.addEventListener("click", (e) => {
     penState = "DRAW";
+    adjustButtonOpacity();
 });
 eraser.addEventListener("click", (e) => {
     penState = "ERASE";
-});
-rainbowMode.addEventListener("click", (e) => {
-    penMode = "RAINBOW";
+    adjustButtonOpacity();
 });
 normalMode.addEventListener("click", (e) => {
     penMode = "NORMAL";
+    adjustButtonOpacity();
 });
+rainbowMode.addEventListener("click", (e) => {
+    penMode = "RAINBOW";
+    adjustButtonOpacity();
+});
+
 
 dimensionSlider.addEventListener("input", (e) => {
     canvasDimensions = e.target.value;
@@ -81,7 +109,6 @@ clearCanvas.addEventListener("click", (e) => {
 // Generate the canvas
 
 function generateGrid(numberOfPixels = canvasDimensions) {
-    console.log("test");
     pixelCanvas.innerHTML = null;
     for (let i = 0; i <= (numberOfPixels - 1); i++) {
         let rowPiece = document.createElement("div");
@@ -129,15 +156,12 @@ function draw(e) {
 // Color palette
 
 function generatePalette(numberOfColors = colorPalette.length) {
-    console.log("generatePalette function found.")
-    
     for (let i = 0; i < colorPalette.length; i++) {
         let colorSwatch = document.createElement("div");
         colorSwatch.classList.add("colorSwatch");
         colorSwatch.style.backgroundColor = colorPalette[i];
         colorSwatch.addEventListener("click", (e) => {
             penColor = colorPalette[i]
-            console.log(`pen color is: ${penColor}`)
         })
         colorSelection.appendChild(colorSwatch);
     }
