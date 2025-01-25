@@ -15,7 +15,6 @@ canvasDimensionDisplay = document.querySelector("#canvasDimensionDisplay"),
 gridStatus = false;
 
 canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`;
-console.log(canvasDimensions);
 
 // Math for sizing
 
@@ -82,12 +81,25 @@ function draw(e) {
     if (penState === "DRAW") {
         if (penMode === "RAINBOW") {
             const rainbowColors = colorPalette.slice(0,-1);
-            console.log(rainbowColors)
-            e.target.style.backgroundColor = `rgb(${rainbowColors[rainbowIndex]})`;
+            e.target.style.backgroundColor = `rgba(${rainbowColors[rainbowIndex]}, 1.0)`;
             rainbowIndex = (rainbowIndex + 1) % rainbowColors.length;
             }
         else if (penMode === "NORMAL") {
-            e.target.style.backgroundColor = `rgb(${penColor})`;
+            e.target.style.backgroundColor = `rgba(${penColor}, 1.0)`;
+        } else if (penMode === "TRICKLE") {
+            let brushTint = "",
+            brushRGB = [],
+            penTrickle = penColor.replace('rgb(', '').replace(')', '').split(', ').map(Number),
+            bgTrickle = window.getComputedStyle(e.target).backgroundColor.replace('rgb(', '').replace(')', '').split(', ').map(Number);
+
+            for (let i = 0; i < 3; i++) {
+                let average = Math.floor(((penTrickle[i]*1) + (bgTrickle[i]*9))/10);
+                brushRGB.push(average);
+            };
+
+            brushTint = `rgb(${brushRGB[0]}, ${brushRGB[1]}, ${brushRGB[2]})`
+
+            e.target.style.backgroundColor = brushTint;        
         }
     } else if (penState === "ERASE") {
         e.target.style.backgroundColor = "white";
@@ -121,9 +133,6 @@ let toolButtons = [normalMode, rainbowMode,
     trickleMode, pen, eraser],
     colorSwatches = Array.from(
         colorSelection.querySelectorAll(".colorSwatch"));
-/* colorSwatches.forEach((color) =>
-    toolButtons.push(color)
-); console.log(toolButtons); */
 
 function adjustButtonOpacity() {
     toolButtons.forEach(button => {
@@ -179,6 +188,10 @@ rainbowMode.addEventListener("click", (e) => {
     penMode = "RAINBOW";
     adjustButtonOpacity();
 });
+trickleMode.addEventListener("click", (e) => {
+    penMode = "TRICKLE";
+    adjustButtonOpacity();
+})
 
 
 dimensionSlider.addEventListener("input", (e) => {
