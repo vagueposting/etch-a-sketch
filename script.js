@@ -25,18 +25,18 @@ function subdivideCanvas(int) {
 
 // color init
 let colorPalette = [
-    "rgb(230,69,110)",
-    "rgb(242, 174, 135)",
-    "rgb(250,244,152)", 
-    "rgb(219, 236, 176)",
-    "rgb(195, 230, 195)",
-    "rgb(159, 221, 224)",
-    "rgb(119,211,255)",
-    "rgb(144, 202, 246)",
-    "rgb(196,182,227)",
-    "rgb(206, 148, 208)",
-    "rgb(221, 107, 168)",
-    "rgb(59, 18, 102)"
+    "230, 69, 110",
+    "242, 174, 135",
+    "250, 244, 152", 
+    "219, 236, 176",
+    "195, 230, 195",
+    "159, 221, 224",
+    "119, 211, 255",
+    "144, 202, 246",
+    "196, 182, 227",
+    "206, 148, 208",
+    "221, 107, 168",
+    "59, 18, 102"
 ];
 
 // pen init
@@ -46,15 +46,100 @@ penState = "DRAW",
 penColor = colorPalette[11],
 rainbowIndex = 0;
 
+// Generate the canvas
+
+function generateGrid(numberOfPixels = canvasDimensions) {
+    pixelCanvas.innerHTML = null;
+    for (let i = 0; i <= (numberOfPixels - 1); i++) {
+        let rowPiece = document.createElement("div");
+        let percentOfCanvas = subdivideCanvas(numberOfPixels);
+        rowPiece.setAttribute("style",
+            `height: ${percentOfCanvas}%`
+        );
+        rowPiece.classList.add("rowPiece")
+        rowPiece.setAttribute("id", `row${i}`)
+        pixelCanvas.appendChild(rowPiece);
+    };
+    
+    for (let i = 0; i <= (numberOfPixels - 1); i++) {
+        let rowHeader = document.querySelector(`#row${i}`);
+        let percentOfRow = subdivideCanvas(numberOfPixels);
+        for (let i = 0; i <= (numberOfPixels - 1); i++) {
+            let individualPixels = document.createElement("div");
+            individualPixels.classList.add("pixel");
+            individualPixels.setAttribute("style",
+                `width: ${percentOfRow}%`
+            );
+            individualPixels.addEventListener("mouseover", draw);
+            rowHeader.appendChild(individualPixels);
+        }
+    } 
+};
+
+// Draw function
+
+function draw(e) {
+    if (penState === "DRAW") {
+        if (penMode === "RAINBOW") {
+            const rainbowColors = colorPalette.slice(0,-1);
+            console.log(rainbowColors)
+            e.target.style.backgroundColor = `rgb(${rainbowColors[rainbowIndex]})`;
+            rainbowIndex = (rainbowIndex + 1) % rainbowColors.length;
+            }
+        else if (penMode === "NORMAL") {
+            e.target.style.backgroundColor = `rgb(${penColor})`;
+        }
+    } else if (penState === "ERASE") {
+        e.target.style.backgroundColor = "white";
+    }
+}
+
+// Color palette
+
+function generatePalette(numberOfColors = colorPalette.length) {
+    for (let i = 0; i < colorPalette.length; i++) {
+        let colorSwatch = document.createElement("div");
+        colorSwatch.classList.add("colorSwatch");
+        colorSwatch.setAttribute("id", `color${i}`)
+        colorSwatch.style.backgroundColor = `rgb(${colorPalette[i]})`;
+        colorSwatch.addEventListener("click", (e) => {
+            penColor = colorPalette[i];
+            adjustButtonOpacity();
+        })
+        colorSelection.appendChild(colorSwatch);
+    }
+}
+
+generateGrid();
+generatePalette();
 
 // Welcome to the button zone, Davis.
 
+    // Lists all interactable buttons
+
+let toolButtons = [normalMode, rainbowMode, 
+    trickleMode, pen, eraser],
+    colorSwatches = Array.from(
+        colorSelection.querySelectorAll(".colorSwatch"));
+/* colorSwatches.forEach((color) =>
+    toolButtons.push(color)
+); console.log(toolButtons); */
+
 function adjustButtonOpacity() {
-    normalMode.style.opacity = 0.6;
-    rainbowMode.style.opacity = 0.6;
-    trickleMode.style.opacity = 0.6;
-    pen.style.opacity = 0.6;
-    eraser.style.opacity = 0.6;
+    toolButtons.forEach(button => {
+        button.style.opacity = 0.6;
+    }
+    )
+
+    colorSwatches.forEach(swatch => {
+        const swatchColor = swatch.style.backgroundColor;
+        if (swatchColor === `rgb(${penColor})`) {
+            swatch.style.opacity = 1.0;
+        } else {
+            swatch.style.opacity = 0.6;
+        }
+    });
+
 
     switch (penMode) {
         case "NORMAL":
@@ -106,66 +191,4 @@ clearCanvas.addEventListener("click", (e) => {
     generateGrid();
 })
 
-// Generate the canvas
-
-function generateGrid(numberOfPixels = canvasDimensions) {
-    pixelCanvas.innerHTML = null;
-    for (let i = 0; i <= (numberOfPixels - 1); i++) {
-        let rowPiece = document.createElement("div");
-        let percentOfCanvas = subdivideCanvas(numberOfPixels);
-        rowPiece.setAttribute("style",
-            `height: ${percentOfCanvas}%`
-        );
-        rowPiece.classList.add("rowPiece")
-        rowPiece.setAttribute("id", `row${i}`)
-        pixelCanvas.appendChild(rowPiece);
-    };
-    
-    for (let i = 0; i <= (numberOfPixels - 1); i++) {
-        let rowHeader = document.querySelector(`#row${i}`);
-        let percentOfRow = subdivideCanvas(numberOfPixels);
-        for (let i = 0; i <= (numberOfPixels - 1); i++) {
-            let individualPixels = document.createElement("div");
-            individualPixels.classList.add("pixel");
-            individualPixels.setAttribute("style",
-                `width: ${percentOfRow}%`
-            );
-            individualPixels.addEventListener("mouseover", draw);
-            rowHeader.appendChild(individualPixels);
-        }
-    } 
-};
-
-// Draw function
-
-function draw(e) {
-    if (penState === "DRAW") {
-        if (penMode === "RAINBOW") {
-            const rainbowColors = colorPalette.slice(0,-1);
-            e.target.style.backgroundColor = rainbowColors[rainbowIndex];
-            rainbowIndex = (rainbowIndex + 1) % rainbowColors.length;
-            }
-        else if (penMode === "NORMAL") {
-            e.target.style.backgroundColor = penColor;
-        }
-    } else if (penState === "ERASE") {
-        e.target.style.backgroundColor = "white";
-    }
-}
-
-// Color palette
-
-function generatePalette(numberOfColors = colorPalette.length) {
-    for (let i = 0; i < colorPalette.length; i++) {
-        let colorSwatch = document.createElement("div");
-        colorSwatch.classList.add("colorSwatch");
-        colorSwatch.style.backgroundColor = colorPalette[i];
-        colorSwatch.addEventListener("click", (e) => {
-            penColor = colorPalette[i]
-        })
-        colorSelection.appendChild(colorSwatch);
-    }
-}
-
-generateGrid();
-generatePalette();
+adjustButtonOpacity()
