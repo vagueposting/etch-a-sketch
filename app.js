@@ -19,7 +19,7 @@ gridStatus = false;
 
 canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`;
 
-// Math for sizing
+// Math and manipulation
 
 function subdivideCanvas(int) {
     return (1/int) * 100;
@@ -40,6 +40,10 @@ let colorPalette = [
     "221, 107, 168",
     "59, 18, 102"
 ];
+
+function arrayRGB(colorCode) {
+    return colorCode.replace('rgb(', '').replace(')', '').split(', ').map(Number);
+}
 
 // pen init
 
@@ -81,6 +85,7 @@ function generateGrid(numberOfPixels = canvasDimensions) {
 // Draw function
 
 function draw(e) {
+    const white = "rgb(255, 255, 255)"
     if (penState === "DRAW") {
         if (penMode === "RAINBOW") {
             const rainbowColors = colorPalette.slice(0,-1);
@@ -90,23 +95,39 @@ function draw(e) {
         else if (penMode === "NORMAL") {
             e.target.style.backgroundColor = `rgba(${penColor}, 1.0)`;
         } else if (penMode === "TRICKLE") {
-            let brushTint = "",
-            brushRGB = [],
-            penTrickle = penColor.replace('rgb(', '').replace(')', '').split(', ').map(Number),
-            bgTrickle = window.getComputedStyle(e.target).backgroundColor.replace('rgb(', '').replace(')', '').split(', ').map(Number);
-
-            for (let i = 0; i < 3; i++) {
-                let average = Math.floor(((penTrickle[i]*1) + (bgTrickle[i]*9))/10);
-                brushRGB.push(average);
-            };
-
-            brushTint = `rgb(${brushRGB[0]}, ${brushRGB[1]}, ${brushRGB[2]})`
+            let brushTint = trickleMath(penColor, 
+                window.getComputedStyle(e.target).backgroundColor
+            )
 
             e.target.style.backgroundColor = brushTint;        
         }
     } else if (penState === "ERASE") {
-        e.target.style.backgroundColor = "white";
+        if (penMode === "NORMAL" || penMode === "RAINBOW") {
+            e.target.style.backgroundColor = white;
+        } else if (penMode === "TRICKLE") {
+            let eraseTint = trickleMath(white,
+                window.getComputedStyle(e.target).backgroundColor
+            )
+
+            e.target.style.backgroundColor = eraseTint;
+        }
     }
+}
+
+function trickleMath(pen, bg) {
+    let brushTint = "",
+    brushRGB = [],
+    penTrickle = arrayRGB(pen);
+    bgTrickle = arrayRGB(bg);
+
+    for (let i = 0; i < 3; i++) {
+        let average = Math.floor(((penTrickle[i]*1) + (bgTrickle[i]*9))/10);
+        brushRGB.push(average);
+    };
+
+    brushTint = `rgb(${brushRGB[0]}, ${brushRGB[1]}, ${brushRGB[2]})`
+
+    return brushTint;
 }
 
 // Color palette
