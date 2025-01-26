@@ -246,24 +246,27 @@ function popup(state, popupWindow = null) {
                     instructions.style.display = "block";
                     break;
                 case "changelog":
-                    instructions.style.display = "block";
+                    changelog.style.display = "block";
                     break;
             }
             break;
         case "close":
             popupOverlay.style.display = "none";
+            instructions.style.display = "none";
+            changelog.style.display = "none";
             break;
     }
 };
 
 
-loadInstructions.addEventListener("click", () => {
-    popup("open","instructions");
-})
+loadInstructions.addEventListener("click", () => popup("open","instructions"))
 
-closeInstructions.addEventListener("click", () => {
-    popup("close")
-})
+closeInstructions.addEventListener("click", () => popup("close"))
 
+popupOverlay.addEventListener("click", () => popup("close"))
+
+loadChangelog.addEventListener("click", () => popup("open", "changelog"))
+
+closeChangelog.addEventListener("click", () => popup("close"))
 
 adjustButtonOpacity()
