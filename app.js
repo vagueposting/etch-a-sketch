@@ -10,7 +10,15 @@ eraser = document.querySelector("#eraser"),
 colorSelection = document.querySelector("#colorSelection"),
 clearCanvas = document.querySelector("#clear"),
 loadInstructions = document.querySelector("#loadInstructions"),
-loadChangelog = document.querySelector("#loadChangelog");
+loadChangelog = document.querySelector("#loadChangelog"),
+popupOverlay = document.querySelector("#popupOverlay"),
+instructions = document.querySelector("#instructions"),
+changelog = document.querySelector("#changelog"),
+closeInstructions = document.querySelector(
+    "#instructions .popupTitle button"),
+closeChangelog = document.querySelector(
+    "#changelog popuptitle button"
+);
 
 // define canvas
 let canvasDimensions = dimensionSlider.value,
@@ -121,7 +129,9 @@ function trickleMath(pen, bg) {
     bgTrickle = arrayRGB(bg);
 
     for (let i = 0; i < 3; i++) {
-        let average = Math.floor(((penTrickle[i]*1) + (bgTrickle[i]*9))/10);
+        let average = Math.floor(
+            ((penTrickle[i]*1) + (bgTrickle[i]*9))/10
+        );
         brushRGB.push(average);
     };
 
@@ -217,7 +227,6 @@ trickleMode.addEventListener("click", (e) => {
     adjustButtonOpacity();
 })
 
-
 dimensionSlider.addEventListener("input", (e) => {
     canvasDimensions = e.target.value;
     canvasDimensionDisplay.textContent = `${canvasDimensions} × ${canvasDimensions}`; 
@@ -228,9 +237,33 @@ clearCanvas.addEventListener("click", (e) => {
     generateGrid();
 })
 
-loadInstructions.addEventListener("click", (e) => {
-    body.appendChild(instructionOverlay);
-    body.appendChild(instructions);
+function popup(state, popupWindow = null) {
+    switch (state) {
+        case "open":
+            popupOverlay.style.display = "flex";
+            switch (popupWindow) {
+                case "instructions":
+                    instructions.style.display = "block";
+                    break;
+                case "changelog":
+                    instructions.style.display = "block";
+                    break;
+            }
+            break;
+        case "close":
+            popupOverlay.style.display = "none";
+            break;
+    }
+};
+
+
+loadInstructions.addEventListener("click", () => {
+    popup("open","instructions");
 })
+
+closeInstructions.addEventListener("click", () => {
+    popup("close")
+})
+
 
 adjustButtonOpacity()

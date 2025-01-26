@@ -23,6 +23,7 @@
             <button id="normal">normal style</button>
             <button id="rainbow">RAINBOW STYLE</button>
             <button id="trickle">trickle style</button>
+            <hr/>
             <button id="clear">start over</button>
             <div class="slideContainer">
                 <div id="canvasDimensionDisplay"></div>
@@ -52,6 +53,39 @@
     </div>
     <div class="footer">
         <p><i>Dr. Magnificent&rsquo;s Art Machine</i> was made by vagueposting.</p>
+    </div>
+
+    <div id="popupOverlay">
+        <div class="popup" id="instructions">
+            <div class="popupTitle">
+                <h2>Instructions</h2>
+                <button id="closeInstructions">✖</button>
+            </div>
+            <i style="font-size: 0.40rem">This app is best run on PC and tablets.</i>
+            <p>Run your mouse cursor over the grid to draw or erase. Move slowly to draw fuller lines, and quickly to "scratch" it!</p>
+            <div class="popupColumn">
+                <div class="single">
+                    <b><u>On styles:</u></b>
+                    <ul>
+                        <li><b>normal style</b> &mdash; Draw with a fully-opaque pen.</li>
+                        <li><span class="rainbowGradient">RAINBOW STYLE</span> &mdash; a pen with a glamorous rainbow trail.</li>
+                        <li><b>trickle style</b> &mdash; a faded pen that lets you build up opacity.
+                    </ul>
+                </div>
+                <div class="single">
+                    <b><u>On colors and brushes:</u></b>
+                    <p>The <b>pen</b> is for laying down color, and the <b>eraser</b> is for removing it.</p>
+                    <p>In the <b>normal</b> and <b>trickle</b> styles, you can select any color from the palette.</p>
+                    <p>Obviously, you can&rsquo;t choose a color while using the <span class="rainbowGradient">RAINBOW STYLE</span>.</p>
+                </div>
+            </div>
+            <p>Click <b>start over</b> to clear the canvas.</p>
+            <p>Use the <b>slider</b> under the start over button to resize the canvas. But be careful, this will OBLITERATE your beautiful artwork!</p>
+            <p>Currently there is no way to save a picture through the app itself, so just take a screenshot.</p>
+        </div>
+        <div class="popup" id="changelog">
+            <h2>Changelog</h2>
+        </div>
     </div>
 </body>
 </html>
