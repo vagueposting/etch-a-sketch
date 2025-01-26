@@ -1,5 +1,6 @@
 // define elements
-const pixelCanvas = document.querySelector("#canvas"),
+const body = document.querySelector("body"),
+pixelCanvas = document.querySelector("#canvas"),
 dimensionSlider = document.querySelector("#dimensionSlider"),
 normalMode = document.querySelector("#normal"),
 rainbowMode = document.querySelector("#rainbow"),
@@ -7,7 +8,9 @@ trickleMode = document.querySelector("#trickle"),
 pen = document.querySelector("#pen"),
 eraser = document.querySelector("#eraser"),
 colorSelection = document.querySelector("#colorSelection"),
-clearCanvas = document.querySelector("#clear");
+clearCanvas = document.querySelector("#clear"),
+loadInstructions = document.querySelector("#loadInstructions"),
+loadChangelog = document.querySelector("#loadChangelog");
 
 // define canvas
 let canvasDimensions = dimensionSlider.value,
@@ -202,6 +205,11 @@ dimensionSlider.addEventListener("input", (e) => {
 
 clearCanvas.addEventListener("click", (e) => {
     generateGrid();
+})
+
+loadInstructions.addEventListener("click", (e) => {
+    body.appendChild(instructionOverlay);
+    body.appendChild(instructions);
 })
 
 adjustButtonOpacity()
